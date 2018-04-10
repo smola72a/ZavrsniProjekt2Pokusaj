@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelScaling : MonoBehaviour {
 
-    public Vector2Int WeaponDamagePerLvl;
+    public int WeaponDamagePerLvl;
     public float WeaponSpeedPerLvl;
     public float StunDurationPerLvl;
     public float StunChancePerLvl;

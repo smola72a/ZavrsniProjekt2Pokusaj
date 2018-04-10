@@ -1,12 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//TODO: usingUnityEngine.Events treba stavit
+using UnityEngine.Events;
+
 
 public class OnBattlePhase : UnityEvent<SOEnemy> { }
 
 //TODO: Treba stavit enum za phase, i onda ga prek switcha mjenjat i slat eventove kad se promijeni, a promjenu primat od nekog drugog 
 //(npr. Battle phase počinje on collision sa enemy i onda to pokrene gamemanager i promijeni enum u battlephase koji se onda šalje dalje)
+
+public enum GameplayPhase
+{
+    Battle,
+    Choosing,
+    Camp
+}
 
 public enum ItemType
 {
@@ -36,34 +44,60 @@ public enum LootType
     Item
 }
 
+
+
 public class GameManager : MonoBehaviour {
 
     public static GameManager gm;
-   // public static OnBattlePhase onBattlePhase = new OnBattlePhase();
+    public static OnBattlePhase onBattlePhase = new OnBattlePhase();
 
-    public SOItem ItemOnPlayer;
-    //umjesto ovog imaš level na itemu
+    public GameplayPhase gameplayPhase;
+    public DamageType damageType;
+
+   
+   
 	public LevelScaling levelScaling;
+    public SOItem PlayerWeapon; //
+    
    
     private int _playerDamage;
+    private int _additionalDamage;
 
     public int Gold;
     public int ItemLevel;
     
 
-    private bool GoldTransactionIsValid;
+    private bool _goldTransactionIsValid;
+    private SOEnemy _enemy;
+    private BattleManager _battleManager;
+
 
     void Awake()
     {
-        //onBattlePhase.Invoke(enemy);
+       
+        switch (gameplayPhase)
+        {
+            case GameplayPhase.Battle:
+                onBattlePhase.Invoke(_enemy); ////trebas mi objasniti sta smo tocno dobili s time
+            
+
+                break;
+            case GameplayPhase.Choosing:
+                break;
+            case GameplayPhase.Camp:
+                break;
+           
+        }
+
     }
 
     public void UpgradeWeapon(SOItem ItemOnPlayerToUpgrade)
     {
         ChangeNumberOfGold(-ItemOnPlayerToUpgrade.UpgradeCost);
-        if (GoldTransactionIsValid)
+        if (_goldTransactionIsValid)
         {
-            ItemLevel++;
+            ItemOnPlayerToUpgrade.Level++;
+            ////ItemLevel++; dali onda tu mjenjamo Item level ili u SOItem?
             levelScaling.UpgradeItem(ItemOnPlayerToUpgrade);
         }
 
@@ -75,11 +109,11 @@ public class GameManager : MonoBehaviour {
         if (Gold + amount >= 0)
         {
             Gold += amount;
-            GoldTransactionIsValid = true;
+            _goldTransactionIsValid = true;
         }
         else
         {
-            GoldTransactionIsValid = false;
+            _goldTransactionIsValid = false;
         }
     }
 

@@ -6,31 +6,48 @@ public class HealthManager : MonoBehaviour
 {
 
     public int MaxHealth;
+    public int MaxArmor;
 
 
     private int _health;
+    private int _armor;
 
     public void RestoreHealth()
     {
         _health = MaxHealth;
     }
 
-    public void PlayerLoseHealth(int amount)
+    public void RestoreArmor()
     {
-        _health -= amount;
-        if (_health <= 0)
-        {
-            Debug.Log("Player umire");
-        }
+        _armor = MaxArmor;
     }
 
-    public void EnemyLoseHealth(SOEnemy enemy, Vector2 amount)
+    public void PlayerLoseHealth(int amount)
     {
-        enemy.Health -= (int) amount;
+        if (_armor <= 0)
+        
+            _health -= amount;
+        
+        else
+        
+            _armor -= amount;
+        
+       
+        if (_health <= 0)
+        
+            Debug.Log("Player umire");
+        
+    }
+
+    public void EnemyLoseHealth(SOEnemy enemy, int amount)
+    {
+        enemy.Health -= amount;
         if (enemy.Health <= 0)
         {
             Debug.Log("Enemy umire");
         }
     }
+
+    // additional damage, prvo se treba armor trositi,
 
 }

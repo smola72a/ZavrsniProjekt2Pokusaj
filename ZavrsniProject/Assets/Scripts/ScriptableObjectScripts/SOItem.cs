@@ -15,7 +15,9 @@ public class SOItem : ScriptableObject
     //Weapon
 
     public string WeaponName;
-    public Vector2Int Damage;
+    public DamageType VsType = DamageType.DmgBandits;
+    public int Damage;
+    public int AdditionalDamage;
 
     public float AttackSpeed;
 

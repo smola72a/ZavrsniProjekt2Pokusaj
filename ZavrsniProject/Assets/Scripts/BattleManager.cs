@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BattleManager : MonoBehaviour
 {
@@ -18,12 +19,14 @@ public class BattleManager : MonoBehaviour
     public float EnemyStunnedDuration;
     public float PlayerStunnedDuration;
 
+    private bool _stopAttCoroutine;
+
 
 
     public void Awake()
     {
-        GameManager.onBattlePhase.AddListener(battle);
-        _playerWeapon = GameManager.gm.ItemOnPlayer;
+        GameManager.onBattlePhase.AddListener(Battle);
+        _playerWeapon = GameManager.gm.PlayerWeapon;
         WaitTimeBetweenAttacks = _playerWeapon.AttackSpeed / 10f * Time.deltaTime;
     }
 
@@ -33,8 +36,13 @@ public class BattleManager : MonoBehaviour
         {
 
             PlayerStunnedDuration += Time.deltaTime;
-			//TODO: sada zaustavlja svaki frejm tu korutinu al dovoljno je jednom. Mogo bi napravit bool koji provjerava dal se korutina izvodi pa da ju ne trebaš zaustavljat svaki frejm
-            StopCoroutine("PlayerAttacking");
+            if (!_stopAttCoroutine)
+            {
+                StopCoroutine("PlayerAttacking");
+                _stopAttCoroutine = true;
+            }
+            //TODO:
+
             if (PlayerStunnedDuration >= _enemy.StunDuration)
             {
                 StartCoroutine("PlayerAttacking");
@@ -46,8 +54,13 @@ public class BattleManager : MonoBehaviour
         if (EnemyIsStunned)
         {
             EnemyStunnedDuration += Time.deltaTime;
-			//TODO: ovdje je sejm ko i gore
-            StopCoroutine("EnemyAttacking");
+            //TODO: 
+            if (!_stopAttCoroutine)
+            {
+                StopCoroutine("EnemyAttacking");
+                _stopAttCoroutine = true;
+            }
+           
             if (EnemyStunnedDuration >= _playerWeapon.StunDuration)
             {
                 StartCoroutine("EnemyAttacking");
@@ -70,6 +83,10 @@ public class BattleManager : MonoBehaviour
         while (BothAlive && !PlayerIsStunned)
         {
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
+            if (enemy.enemyType == EnemyType.Bandits) ////hahahah moram postojat bolji nacin...
+            {
+
+            }
             healthManager.EnemyLoseHealth(enemy, _playerWeapon.Damage);
             if (_playerWeapon.ShouldStun)
             {
@@ -85,8 +102,8 @@ public class BattleManager : MonoBehaviour
 
         WaitTimeBetweenAttacks = enemy.AttackSpeed / 10.0f * Time.deltaTime;
 
-		//TODO: provjerit treba dal je stunan
-        while (BothAlive)
+		
+        while (BothAlive && !EnemyIsStunned)
         {
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
             //promjeniti damage za playera
