@@ -33,6 +33,7 @@ public class BattleManager : MonoBehaviour
         {
 
             PlayerStunnedDuration += Time.deltaTime;
+			//TODO: sada zaustavlja svaki frejm tu korutinu al dovoljno je jednom. Mogo bi napravit bool koji provjerava dal se korutina izvodi pa da ju ne trebaš zaustavljat svaki frejm
             StopCoroutine("PlayerAttacking");
             if (PlayerStunnedDuration >= _enemy.StunDuration)
             {
@@ -45,6 +46,7 @@ public class BattleManager : MonoBehaviour
         if (EnemyIsStunned)
         {
             EnemyStunnedDuration += Time.deltaTime;
+			//TODO: ovdje je sejm ko i gore
             StopCoroutine("EnemyAttacking");
             if (EnemyStunnedDuration >= _playerWeapon.StunDuration)
             {
@@ -83,6 +85,7 @@ public class BattleManager : MonoBehaviour
 
         WaitTimeBetweenAttacks = enemy.AttackSpeed / 10.0f * Time.deltaTime;
 
+		//TODO: provjerit treba dal je stunan
         while (BothAlive)
         {
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);

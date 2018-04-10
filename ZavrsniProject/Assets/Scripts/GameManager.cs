@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//TODO: usingUnityEngine.Events treba stavit
 
 public class OnBattlePhase : UnityEvent<SOEnemy> { }
 
+//TODO: Treba stavit enum za phase, i onda ga prek switcha mjenjat i slat eventove kad se promijeni, a promjenu primat od nekog drugog 
+//(npr. Battle phase počinje on collision sa enemy i onda to pokrene gamemanager i promijeni enum u battlephase koji se onda šalje dalje)
 
 public enum ItemType
 {
@@ -38,9 +41,9 @@ public class GameManager : MonoBehaviour {
     public static GameManager gm;
    // public static OnBattlePhase onBattlePhase = new OnBattlePhase();
 
-
     public SOItem ItemOnPlayer;
-    public LevelScaling levelScaling;
+    //umjesto ovog imaš level na itemu
+	public LevelScaling levelScaling;
    
     private int _playerDamage;
 
