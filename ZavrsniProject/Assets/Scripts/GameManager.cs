@@ -21,7 +21,7 @@ public enum ItemType
     Weapon,
     Armor
 }
-
+//se moze koristiti samo enemytype bez damage type?
 public enum EnemyType
 {
     Bandits,

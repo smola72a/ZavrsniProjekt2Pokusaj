@@ -7,8 +7,8 @@ public class ItemIsPickedUp : UnityEvent<SOItem> { }
 
 public class LootGain : MonoBehaviour {
 
-   
-    public  ItemIsPickedUp itemIsPickedUp = new ItemIsPickedUp();
+   //za static nam je srao ako ga koristimo gdje ne treba haha
+    public static ItemIsPickedUp itemIsPickedUp = new ItemIsPickedUp();
 
     public SOItem [] ItemsAbleToGet;
     public SOEnemy DefeatedEnemy;

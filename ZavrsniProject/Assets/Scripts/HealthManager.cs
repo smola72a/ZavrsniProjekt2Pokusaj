@@ -7,6 +7,9 @@ public class HealthManager : MonoBehaviour
 
     public int MaxHealth;
     public int MaxArmor;
+    int armorDamage;
+    private int _damageLeft;
+    public DamageType ProtectionType = DamageType.DmgBandits;
 
 
     private int _health;
@@ -24,15 +27,17 @@ public class HealthManager : MonoBehaviour
 
     public void PlayerLoseHealth(int amount)
     {
-        if (_armor <= 0)
-        
-            _health -= amount;
-        
-        else
-        
-            _armor -= amount;
-        
-       
+        if (_armor > 0)
+
+         armorDamage = Mathf.Min(_damageLeft, _armor);
+        _armor -= armorDamage;
+        _damageLeft -= armorDamage;
+
+        if (_damageLeft > 0)
+        {
+            _health -= _damageLeft;
+        }
+
         if (_health <= 0)
         
             Debug.Log("Player umire");

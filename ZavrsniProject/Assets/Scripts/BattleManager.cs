@@ -21,6 +21,9 @@ public class BattleManager : MonoBehaviour
 
     private bool _stopAttCoroutine;
 
+    EnemyType enemyType;
+    DamageType damageType;
+
 
 
     public void Awake()
@@ -83,7 +86,7 @@ public class BattleManager : MonoBehaviour
         while (BothAlive && !PlayerIsStunned)
         {
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
-            if (enemy.enemyType == EnemyType.Bandits) ////hahahah moram postojat bolji nacin...
+            if (enemy.enemyType == EnemyType.Bandits && _playerWeapon.VsType == DamageType.DmgBandits) ////hahahah moram postojat bolji nacin...
             {
 
             }
