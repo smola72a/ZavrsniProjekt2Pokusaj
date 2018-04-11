@@ -8,6 +8,7 @@ public class BattleManager : MonoBehaviour
 
     public HealthManager healthManager;
     private SOItem _playerWeapon;
+    private SOItem _playerArmor;
     private SOEnemy _enemy;
 
     public bool BothAlive;
@@ -19,17 +20,20 @@ public class BattleManager : MonoBehaviour
     public float EnemyStunnedDuration;
     public float PlayerStunnedDuration;
 
-    private bool _stopAttCoroutine;
+    private bool _stopPlayerAttCoroutine;
+    private bool _stopEnemyAttCoroutine;
 
     EnemyType enemyType;
-    DamageType damageType;
+   
 
 
 
     public void Awake()
     {
         GameManager.onBattlePhase.AddListener(Battle);
+        
         _playerWeapon = GameManager.gm.PlayerWeapon;
+        _playerArmor = GameManager.gm.PlayerArmor;
         WaitTimeBetweenAttacks = _playerWeapon.AttackSpeed / 10f * Time.deltaTime;
     }
 
@@ -39,12 +43,12 @@ public class BattleManager : MonoBehaviour
         {
 
             PlayerStunnedDuration += Time.deltaTime;
-            if (!_stopAttCoroutine)
+            if (!_stopPlayerAttCoroutine)
             {
                 StopCoroutine("PlayerAttacking");
-                _stopAttCoroutine = true;
+                _stopPlayerAttCoroutine = true;
             }
-            //TODO:
+           
 
             if (PlayerStunnedDuration >= _enemy.StunDuration)
             {
@@ -57,11 +61,11 @@ public class BattleManager : MonoBehaviour
         if (EnemyIsStunned)
         {
             EnemyStunnedDuration += Time.deltaTime;
-            //TODO: 
-            if (!_stopAttCoroutine)
+            
+            if (!_stopEnemyAttCoroutine)
             {
                 StopCoroutine("EnemyAttacking");
-                _stopAttCoroutine = true;
+                _stopEnemyAttCoroutine = true;
             }
            
             if (EnemyStunnedDuration >= _playerWeapon.StunDuration)
@@ -76,6 +80,8 @@ public class BattleManager : MonoBehaviour
     private void Battle(SOEnemy enemy)
     {
         _enemy = enemy;
+        _stopEnemyAttCoroutine = false;
+        _stopPlayerAttCoroutine = false;
         StartCoroutine("PlayerAttacking");
         StartCoroutine("EnemyAttacking");
     }
@@ -86,12 +92,20 @@ public class BattleManager : MonoBehaviour
         while (BothAlive && !PlayerIsStunned)
         {
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
-            if (enemy.enemyType == EnemyType.Bandits && _playerWeapon.VsType == DamageType.DmgBandits) ////hahahah moram postojat bolji nacin...
-            {
 
+            
+           
+
+            if (enemy.enemyType == _playerWeapon.VsType) 
+            {
+                healthManager.EnemyLoseHealth(enemy, _playerWeapon.AdditionalDamage);
             }
-            healthManager.EnemyLoseHealth(enemy, _playerWeapon.Damage);
-            if (_playerWeapon.ShouldStun)
+            else
+            {
+                healthManager.EnemyLoseHealth(enemy, _playerWeapon.Damage);
+            }
+
+           if (_playerWeapon.ShouldStun)
             {
                 EnemyIsStunned = true;
             }
@@ -109,8 +123,17 @@ public class BattleManager : MonoBehaviour
         while (BothAlive && !EnemyIsStunned)
         {
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
-            //promjeniti damage za playera
-            healthManager.PlayerLoseHealth(enemy.Damage * enemy.DamagePerLevel);
+            //if(enemy.enemyType == armorkojinosiš.enemytype) 
+            if (enemy.enemyType == _playerArmor.ProtectionType)
+            {
+                healthManager.PlayerLoseAdditionalArmor(enemy.Damage * enemy.DamagePerLevel);
+            }
+            else
+            {
+                healthManager.PlayerLoseHealth(enemy.Damage * enemy.DamagePerLevel);
+            }
+
+           
 
             if (enemy.ShouldStun)
             {

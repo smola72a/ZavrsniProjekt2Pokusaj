@@ -7,16 +7,22 @@ public class ItemIsPickedUp : UnityEvent<SOItem> { }
 
 public class LootGain : MonoBehaviour {
 
-   //za static nam je srao ako ga koristimo gdje ne treba haha
+
+
+    //TODO: ovo se sve stavi na igrača pa imaš reference ko čovjek
+   
     public static ItemIsPickedUp itemIsPickedUp = new ItemIsPickedUp();
 
     public SOItem [] ItemsAbleToGet;
     public SOEnemy DefeatedEnemy;
+    public LootType lootType;
 
     public int GoldPerEnemyLvlMin;
     public int GoldPerEnemyLvlMax;
 
     private int _itemIndex;
+
+    private Inventory inventory;
 
     public void ChoosingGold (SOEnemy defeatedEnemy)
     {
@@ -27,7 +33,9 @@ public class LootGain : MonoBehaviour {
     public void ChoosingItem (SOEnemy defeatedEnemy)
     {
         _itemIndex = Random.Range(0, ItemsAbleToGet.Length);
-        ScriptableObject.Instantiate(ItemsAbleToGet[_itemIndex]);
+        //
+        SOItem newItem = ScriptableObject.Instantiate(ItemsAbleToGet[_itemIndex]) as SOItem;
+        inventory.AddItemInInventory(newItem);
     }
 
 

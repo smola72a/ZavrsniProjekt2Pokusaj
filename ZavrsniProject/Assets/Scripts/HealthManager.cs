@@ -5,15 +5,21 @@ using UnityEngine;
 public class HealthManager : MonoBehaviour
 {
 
+    public EnemyType ProtectionType = EnemyType.Bandits;
     public int MaxHealth;
+    //TODO: definirat preko itema (armor) od igrača - pristupi gm
+    //TODO: additional armor isto ko i armor
     public int MaxArmor;
-    int armorDamage;
-    private int _damageLeft;
-    public DamageType ProtectionType = DamageType.DmgBandits;
+    public int MaxAdditionalArmor;
 
+    private int _armorDamage;
+    private int _damageLeft;
+    private int _additionalArmorDamage;
+    private int _additionalArmorDamageLeft;
 
     private int _health;
     private int _armor;
+    private int _additionalArmor;
 
     public void RestoreHealth()
     {
@@ -25,24 +31,54 @@ public class HealthManager : MonoBehaviour
         _armor = MaxArmor;
     }
 
+    public void PlayerLoseAdditionalArmor(int amount)
+    {
+        if (_additionalArmor > 0)
+        {
+            _additionalArmorDamageLeft = 0;
+            _additionalArmor -= amount;
+            if (_additionalArmor < 0)
+            {
+                _additionalArmorDamageLeft -= _additionalArmor;
+                _additionalArmor = 0;
+            }
+            if (_additionalArmorDamageLeft > 0)
+            {
+                PlayerLoseHealth(_additionalArmorDamageLeft);
+            }
+        }
+        
+      
+
+    }
+
+
     public void PlayerLoseHealth(int amount)
     {
+
+
         if (_armor > 0)
-
-         armorDamage = Mathf.Min(_damageLeft, _armor);
-        _armor -= armorDamage;
-        _damageLeft -= armorDamage;
-
-        if (_damageLeft > 0)
         {
-            _health -= _damageLeft;
-        }
 
-        if (_health <= 0)
-        
-            Debug.Log("Player umire");
-        
+            _damageLeft = 0;
+            _armor -= amount;
+            if (_armor < 0)
+            {
+                _damageLeft -= _armor;
+                _armor = 0;
+            }
+
+            if (_damageLeft > 0)
+            {
+                _health -= _damageLeft;
+            }
+
+            if (_health <= 0)
+
+                Debug.Log("Player umire");
+        }
     }
+
 
     public void EnemyLoseHealth(SOEnemy enemy, int amount)
     {
@@ -52,7 +88,7 @@ public class HealthManager : MonoBehaviour
             Debug.Log("Enemy umire");
         }
     }
-
+}
     // additional damage, prvo se treba armor trositi,
 
-}
+

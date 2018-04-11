@@ -6,8 +6,6 @@ using UnityEngine.Events;
 
 public class OnBattlePhase : UnityEvent<SOEnemy> { }
 
-//TODO: Treba stavit enum za phase, i onda ga prek switcha mjenjat i slat eventove kad se promijeni, a promjenu primat od nekog drugog 
-//(npr. Battle phase počinje on collision sa enemy i onda to pokrene gamemanager i promijeni enum u battlephase koji se onda šalje dalje)
 
 public enum GameplayPhase
 {
@@ -21,7 +19,7 @@ public enum ItemType
     Weapon,
     Armor
 }
-//se moze koristiti samo enemytype bez damage type?
+
 public enum EnemyType
 {
     Bandits,
@@ -30,13 +28,7 @@ public enum EnemyType
     Skeletons
 }
 
-public enum DamageType
-{
-    DmgBandits,
-    DmgWildlife,
-    DmgImps,
-    DmgSkeletons
-}
+
 
 public enum LootType
 {
@@ -52,12 +44,13 @@ public class GameManager : MonoBehaviour {
     public static OnBattlePhase onBattlePhase = new OnBattlePhase();
 
     public GameplayPhase gameplayPhase;
-    public DamageType damageType;
+    
 
    
    
 	public LevelScaling levelScaling;
-    public SOItem PlayerWeapon; //
+    public SOItem PlayerWeapon;
+    public SOItem PlayerArmor;
     
    
     private int _playerDamage;
@@ -72,23 +65,27 @@ public class GameManager : MonoBehaviour {
     private BattleManager _battleManager;
 
 
-    void Awake()
+   private void Update()
     {
-       
         switch (gameplayPhase)
         {
+            //ova faza počinje kolizijom
             case GameplayPhase.Battle:
                 onBattlePhase.Invoke(_enemy); ////trebas mi objasniti sta smo tocno dobili s time
-            
-
                 break;
+            //ova faza počinje nakon kaj izađeš iz kampa ili kombata
             case GameplayPhase.Choosing:
+                //ovdje negdje treba bit taj generirani protivnik
                 break;
+            //nakon kaj se ispune uvjeti za finish borbe
             case GameplayPhase.Camp:
                 break;
-           
         }
+    }
 
+    private void GenerateEnemy()
+    {
+        //iz liste koja sadržava SOEnemy prefabove, napravi se jedan, odredi mu se level (ak treba još neš), i onda ga se šalje dalje
     }
 
     public void UpgradeWeapon(SOItem ItemOnPlayerToUpgrade)
@@ -114,6 +111,18 @@ public class GameManager : MonoBehaviour {
         else
         {
             _goldTransactionIsValid = false;
+        }
+    }
+
+    public void CheckItemType (SOItem ItemToCheck)
+    {
+        if (ItemToCheck.itemType == ItemType.Weapon)
+        {
+            PlayerWeapon = ItemToCheck;
+        }
+        else
+        {
+            PlayerArmor = ItemToCheck;
         }
     }
 

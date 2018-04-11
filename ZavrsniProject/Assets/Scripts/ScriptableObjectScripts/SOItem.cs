@@ -6,8 +6,11 @@ using UnityEngine;
 
 public class SOItem : ScriptableObject
 {
+    //TODO:EnemyType
+
     //Overall
 
+    public ItemType itemType;
     public int MaxLevel;
     public int Level;
     public int UpgradeCost;
@@ -15,7 +18,7 @@ public class SOItem : ScriptableObject
     //Weapon
 
     public string WeaponName;
-    public DamageType VsType = DamageType.DmgBandits;
+    public EnemyType VsType = EnemyType.Bandits;
     public int Damage;
     public int AdditionalDamage;
 
@@ -27,7 +30,7 @@ public class SOItem : ScriptableObject
 
     //Armor
 
-    public DamageType ProtectionType = DamageType.DmgBandits;
+    public EnemyType ProtectionType = EnemyType.Bandits;
     public int Protection;
     public int AdditionalProtection;
 
