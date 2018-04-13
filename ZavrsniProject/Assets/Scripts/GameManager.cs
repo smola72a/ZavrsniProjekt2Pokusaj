@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+using UnityEditor;
 
 public class OnBattlePhase : UnityEvent<SOEnemy> { }
 
@@ -51,26 +52,29 @@ public class GameManager : MonoBehaviour {
 	public LevelScaling levelScaling;
     public SOItem PlayerWeapon;
     public SOItem PlayerArmor;
-    
-   
+    public SOEnemy _enemy;
+
+
     private int _playerDamage;
     private int _additionalDamage;
 
     public int Gold;
     public int ItemLevel;
-    
 
+    public List<SOEnemy> EnemyPrefabs = new List<SOEnemy>(); 
     private bool _goldTransactionIsValid;
-    private SOEnemy _enemy;
+    
     private BattleManager _battleManager;
 
 
-   private void Update()
+   public virtual  void Update()
     {
         switch (gameplayPhase)
         {
             //ova faza počinje kolizijom
             case GameplayPhase.Battle:
+                //ne ovdje neg kad se bira put (prije Chosing)
+                GenerateEnemy();
                 onBattlePhase.Invoke(_enemy); ////trebas mi objasniti sta smo tocno dobili s time
                 break;
             //ova faza počinje nakon kaj izađeš iz kampa ili kombata
@@ -83,12 +87,14 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private void GenerateEnemy()
+   public virtual void GenerateEnemy()
     {
-        //iz liste koja sadržava SOEnemy prefabove, napravi se jedan, odredi mu se level (ak treba još neš), i onda ga se šalje dalje
+        //trebat će enemyClone još dodat određene vrijednosti i treba se poredat ostale vrijednosti s levelom
+        SOEnemy _enemyClone = ScriptableObject.Instantiate (EnemyPrefabs[Random.Range(0, EnemyPrefabs.Count)]); //
+        _enemyClone = _enemy;
     }
 
-    public void UpgradeWeapon(SOItem ItemOnPlayerToUpgrade)
+    public void UpgradeItem(SOItem ItemOnPlayerToUpgrade)
     {
         ChangeNumberOfGold(-ItemOnPlayerToUpgrade.UpgradeCost);
         if (_goldTransactionIsValid)
@@ -126,7 +132,28 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+  // [CustomEditor(typeof(GameManager))]
+  // public class GameManagerEditor : Editor
+  // {
+  //     public override void  GenerateEnemy()
+  //     {
+  //        
+  //         base.OnInspectorGUI();
+  //
+  //         GameManager gameManager = (GameManager)target;
+  //
+  //         if (GUILayout.Button ("Start Level"))
+  //         {
+  //             gameManager.GenerateEnemy();
+  //             GameManager.onBattlePhase.Invoke(GameManager.gm._enemy);
+  //         }
+  //
+  //         base.OnInspectorGUI();
+  //     }
+  // }
 
-    
+
+    //ovdje editor
+    //on gui il kaj god ćeš generirat protivnika i onda invoke onbattlephase
 	
 }

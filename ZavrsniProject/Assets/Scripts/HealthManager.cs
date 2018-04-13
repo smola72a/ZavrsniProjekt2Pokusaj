@@ -6,20 +6,22 @@ public class HealthManager : MonoBehaviour
 {
 
     public EnemyType ProtectionType = EnemyType.Bandits;
+
     public int MaxHealth;
-    //TODO: definirat preko itema (armor) od igrača - pristupi gm
-    //TODO: additional armor isto ko i armor
     public int MaxArmor;
     public int MaxAdditionalArmor;
 
+    private int _armor;
     private int _armorDamage;
     private int _damageLeft;
+
+    private int _additionalArmor;
     private int _additionalArmorDamage;
     private int _additionalArmorDamageLeft;
 
     private int _health;
-    private int _armor;
-    private int _additionalArmor;
+   
+    
 
     public void RestoreHealth()
     {
@@ -87,8 +89,8 @@ public class HealthManager : MonoBehaviour
         {
             Debug.Log("Enemy umire");
         }
-    }
+    } 
 }
-    // additional damage, prvo se treba armor trositi,
+    
 
 

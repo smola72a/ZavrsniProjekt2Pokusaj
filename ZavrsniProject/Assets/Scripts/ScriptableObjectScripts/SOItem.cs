@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [CreateAssetMenu(fileName = "New Item", menuName = "Item")]
 
 public class SOItem : ScriptableObject
 {
-    //TODO:EnemyType
+    
 
     //Overall
 
@@ -14,6 +15,8 @@ public class SOItem : ScriptableObject
     public int MaxLevel;
     public int Level;
     public int UpgradeCost;
+    
+
 
     //Weapon
 
@@ -26,7 +29,8 @@ public class SOItem : ScriptableObject
 
     public bool ShouldStun;
     public float StunDuration;
-    public float StunChance;
+    public int StunChance;
+    
 
     //Armor
 
@@ -34,8 +38,12 @@ public class SOItem : ScriptableObject
     public int Protection;
     public int AdditionalProtection;
 
-    
-	
-		
-	
+
+
+  
+
+
+
+
+
 }

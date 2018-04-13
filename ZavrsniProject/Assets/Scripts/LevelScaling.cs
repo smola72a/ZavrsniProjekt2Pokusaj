@@ -20,7 +20,7 @@ public class LevelScaling : MonoBehaviour {
         ItemToUpgrade.Damage += WeaponDamagePerLvl;
         ItemToUpgrade.AttackSpeed += WeaponSpeedPerLvl;
         ItemToUpgrade.StunDuration += StunDurationPerLvl;
-        ItemToUpgrade.StunChance += StunChancePerLvl;
+        ItemToUpgrade.StunChance = Random.Range(0, StunChancePerLvl); //tebi pustam ovaj %....
 
         ItemToUpgrade.Protection += ProtectionPerLvl;
         ItemToUpgrade.AdditionalProtection += AdditionalProtectionPerLvl;

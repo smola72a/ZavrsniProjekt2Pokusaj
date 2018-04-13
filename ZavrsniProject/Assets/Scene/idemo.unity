@@ -237,7 +237,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4575833361796864, guid: aa1571cd0064be8408f8fd6a12798ebf, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4575833361796864, guid: aa1571cd0064be8408f8fd6a12798ebf, type: 2}
       propertyPath: m_LocalPosition.z
@@ -442,6 +442,90 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1146967177 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1363930958644764, guid: 5c14b7cbcdeb5df47ab4e9fff46acd95,
+    type: 2}
+  m_PrefabInternal: {fileID: 1950308784}
+--- !u!114 &1146967178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1146967177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791baec45c503a94e9f62b239c3fc499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthManager: {fileID: 1146967182}
+  BothAlive: 1
+  WaitTimeBetweenAttacks: 2
+  EnemyIsStunned: 0
+  PlayerIsStunned: 0
+  EnemyStunnedDuration: 0
+  PlayerStunnedDuration: 0
+--- !u!114 &1146967179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1146967177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 623a812a64d0498468e89672eb696814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponDamagePerLvl: 0
+  WeaponSpeedPerLvl: 0
+  StunDurationPerLvl: 0
+  StunChancePerLvl: 0
+  ProtectionPerLvl: 0
+  AdditionalProtectionPerLvl: 0
+  UpgradeCostPerLvl: 0
+--- !u!114 &1146967180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1146967177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6e46000db24d046b14adcd4f1bd05e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemsAbleToGet: []
+  DefeatedEnemy: {fileID: 0}
+  lootType: 0
+  GoldPerEnemyLvlMin: 0
+  GoldPerEnemyLvlMax: 0
+--- !u!114 &1146967181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1146967177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44cccc9dbc3ac914b868df1c629f5351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemsInInventory: []
+--- !u!114 &1146967182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1146967177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a36fd9bd3c073a458a1165d1fe5b985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ProtectionType: 0
+  MaxHealth: 0
+  MaxArmor: 0
+  MaxAdditionalArmor: 0
 --- !u!1 &1339157310
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,7 +534,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1339157312}
-  - component: {fileID: 1339157311}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -458,21 +541,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1339157311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1339157310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 177e5d61990f9654bad20f538198d1ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ItemOnPlayer: {fileID: 0}
-  Gold: 0
-  WeaponLevel: 0
-  ArmorLevel: 0
 --- !u!4 &1339157312
 Transform:
   m_ObjectHideFlags: 0

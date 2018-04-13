@@ -20,8 +20,9 @@ public class SOEnemy : ScriptableObject
     public float AttackSpeedPerLevel;
 
     public bool ShouldStun;
-    public float StunChance;
+    public int StunChance;
     public float StunDuration;
+
 
     public int MaxLevel;
     public int Level;

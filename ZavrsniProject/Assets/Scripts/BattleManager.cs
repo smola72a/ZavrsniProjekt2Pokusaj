@@ -23,11 +23,18 @@ public class BattleManager : MonoBehaviour
     private bool _stopPlayerAttCoroutine;
     private bool _stopEnemyAttCoroutine;
 
+    private float randomStunChanceNumber;
+
     EnemyType enemyType;
    
+    /*
+    void ngff()
+    {
+        randomStunChanceNumber = Random.Range(0, 10);
 
-
-
+        if (randomStunChanceNumber <= _playerWeapon.StunChance) ;
+    }
+    */
     public void Awake()
     {
         GameManager.onBattlePhase.AddListener(Battle);
@@ -82,8 +89,8 @@ public class BattleManager : MonoBehaviour
         _enemy = enemy;
         _stopEnemyAttCoroutine = false;
         _stopPlayerAttCoroutine = false;
-        StartCoroutine("PlayerAttacking");
-        StartCoroutine("EnemyAttacking");
+        StartCoroutine(PlayerAttacking (_enemy));
+        StartCoroutine(EnemyAttacking (_enemy));
     }
 
     private IEnumerator PlayerAttacking(SOEnemy enemy)
@@ -91,10 +98,11 @@ public class BattleManager : MonoBehaviour
 
         while (BothAlive && !PlayerIsStunned)
         {
+        
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
 
+
             
-           
 
             if (enemy.enemyType == _playerWeapon.VsType) 
             {
@@ -105,7 +113,7 @@ public class BattleManager : MonoBehaviour
                 healthManager.EnemyLoseHealth(enemy, _playerWeapon.Damage);
             }
 
-           if (_playerWeapon.ShouldStun)
+            if (randomStunChanceNumber <= _playerWeapon.StunChance)
             {
                 EnemyIsStunned = true;
             }
@@ -122,8 +130,10 @@ public class BattleManager : MonoBehaviour
 		
         while (BothAlive && !EnemyIsStunned)
         {
+            
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
-            //if(enemy.enemyType == armorkojinosiš.enemytype) 
+            
+
             if (enemy.enemyType == _playerArmor.ProtectionType)
             {
                 healthManager.PlayerLoseAdditionalArmor(enemy.Damage * enemy.DamagePerLevel);
@@ -135,9 +145,9 @@ public class BattleManager : MonoBehaviour
 
            
 
-            if (enemy.ShouldStun)
+            if (randomStunChanceNumber <= _enemy.StunChance) 
             {
-                PlayerIsStunned = true;
+                PlayerIsStunned = true; //coroutina
             }
 
 

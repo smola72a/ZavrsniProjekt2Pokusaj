@@ -33,7 +33,7 @@ public class LootGain : MonoBehaviour {
     public void ChoosingItem (SOEnemy defeatedEnemy)
     {
         _itemIndex = Random.Range(0, ItemsAbleToGet.Length);
-        //
+      
         SOItem newItem = ScriptableObject.Instantiate(ItemsAbleToGet[_itemIndex]) as SOItem;
         inventory.AddItemInInventory(newItem);
     }
