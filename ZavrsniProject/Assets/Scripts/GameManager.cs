@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour {
     private BattleManager _battleManager;
 
 
-   public virtual  void Update()
+   public void Update()
     {
         switch (gameplayPhase)
         {
@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-   public virtual void GenerateEnemy()
+   public void GenerateEnemy()
     {
         //trebat će enemyClone još dodat određene vrijednosti i treba se poredat ostale vrijednosti s levelom
         SOEnemy _enemyClone = ScriptableObject.Instantiate (EnemyPrefabs[Random.Range(0, EnemyPrefabs.Count)]); //
@@ -132,25 +132,25 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-  // [CustomEditor(typeof(GameManager))]
-  // public class GameManagerEditor : Editor
-  // {
-  //     public override void  GenerateEnemy()
-  //     {
-  //        
-  //         base.OnInspectorGUI();
-  //
-  //         GameManager gameManager = (GameManager)target;
-  //
-  //         if (GUILayout.Button ("Start Level"))
-  //         {
-  //             gameManager.GenerateEnemy();
-  //             GameManager.onBattlePhase.Invoke(GameManager.gm._enemy);
-  //         }
-  //
-  //         base.OnInspectorGUI();
-  //     }
-  // }
+   [CustomEditor(typeof(GameManager))]
+   public class GameManagerEditor : Editor
+   {
+       public  void  GenerateEnemy()
+       {
+          
+           base.OnInspectorGUI();
+  
+           GameManager gameManager = (GameManager)target;
+  
+           if (GUILayout.Button ("Activate"))
+           {
+              gameManager.GenerateEnemy();
+              GameManager.onBattlePhase.Invoke(GameManager.gm._enemy);
+           }
+  
+         
+       }
+   }
 
 
     //ovdje editor
