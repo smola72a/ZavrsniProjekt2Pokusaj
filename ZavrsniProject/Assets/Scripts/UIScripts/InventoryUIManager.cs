@@ -28,7 +28,7 @@ public class InventoryUIManager : MonoBehaviour
             }
             else
             {
-                InventorySlots[i].sprite = null;
+                InventorySlots[i].sprite = null; //emptyslot sprite
             }
 
             }
