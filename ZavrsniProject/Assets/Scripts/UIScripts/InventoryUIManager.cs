@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class InventoryUIManager : MonoBehaviour
 {
-    Inventory inventory;
+    public Inventory inventory;
 
     public List<Image> InventorySlots = new List<Image>();
     public Sprite EmptySlot;
@@ -15,6 +15,13 @@ public class InventoryUIManager : MonoBehaviour
         inventory.OnInventoryChanged.AddListener(RefreshInventory);
         RefreshInventory(inventory);
     }
+
+    public void Update()
+    {
+       
+    }
+
+
 
     private void RefreshInventory (Inventory inventory)
     {

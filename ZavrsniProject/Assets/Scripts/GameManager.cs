@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour {
             //ova faza počinje kolizijom
             case GameplayPhase.Battle:
                 //ne ovdje neg kad se bira put (prije Chosing)
-                GenerateEnemy();
+               // GenerateEnemy();
                 onBattlePhase.Invoke(_enemy); ////trebas mi objasniti sta smo tocno dobili s time
                 break;
             //ova faza počinje nakon kaj izađeš iz kampa ili kombata

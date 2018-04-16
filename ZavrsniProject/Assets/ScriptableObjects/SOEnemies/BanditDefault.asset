@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: BanditDefault
   m_EditorClassIdentifier: 
   Name: Bandit - Default
+  EnemySprite: {fileID: 21300000, guid: 8963a81f6fb460c4ba29e5cc3cfec618, type: 3}
   enemyType: 0
   StartingHealth: 0
   Health: 0

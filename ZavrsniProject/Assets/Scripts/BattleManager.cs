@@ -9,7 +9,7 @@ public class BattleManager : MonoBehaviour
     public HealthManager healthManager;
     private SOItem _playerWeapon;
     private SOItem _playerArmor;
-    private SOEnemy _enemy;
+    public SOEnemy _enemy;
 
     public bool BothAlive;
 
@@ -31,6 +31,7 @@ public class BattleManager : MonoBehaviour
     public void Awake()
     {
         GameManager.onBattlePhase.AddListener(Battle);
+       
         
         _playerWeapon = GameManager.gm.PlayerWeapon;
         _playerArmor = GameManager.gm.PlayerArmor;
@@ -122,7 +123,7 @@ public class BattleManager : MonoBehaviour
     private IEnumerator EnemyAttacking(SOEnemy enemy)
     {
 
-        WaitTimeBetweenAttacks = enemy.AttackSpeed / 10.0f * Time.deltaTime;
+        //WaitTimeBetweenAttacks = enemy.AttackSpeed / 10.0f * Time.deltaTime;
 
         StunChanceNumber();
 
