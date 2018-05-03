@@ -9,16 +9,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa9aec9d57880394ea81435efcf263a0, type: 3}
-  m_Name: AxeBandit
+  m_Name: armortest
   m_EditorClassIdentifier: 
-  Name: Axe - Bandit
-  itemType: 0
+  Name: 
+  itemType: 1
   MaxLevel: 0
   Level: 0
   UpgradeCost: 0
-  Icon: {fileID: 21300000, guid: ee5c1e0ad905434448d981abd06c1ac2, type: 3}
+  Icon: {fileID: 0}
   VsType: 0
-  Damage: 50
+  Damage: 0
   AdditionalDamage: 0
   AttackSpeed: 0
   ShouldStun: 0
