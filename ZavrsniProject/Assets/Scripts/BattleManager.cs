@@ -9,7 +9,7 @@ public class BattleManager : MonoBehaviour
     public HealthManager healthManager;
     private SOItem _playerWeapon;
     private SOItem _playerArmor;
-    private SOEnemy _enemy;
+    public SOEnemy _enemy;
 
     public bool BothAlive;
 
@@ -23,21 +23,15 @@ public class BattleManager : MonoBehaviour
     private bool _stopPlayerAttCoroutine;
     private bool _stopEnemyAttCoroutine;
 
-    private float randomStunChanceNumber;
+    private float _randomStunChanceNumber;
 
     EnemyType enemyType;
    
-    /*
-    void ngff()
-    {
-        randomStunChanceNumber = Random.Range(0, 10);
-
-        if (randomStunChanceNumber <= _playerWeapon.StunChance) ;
-    }
-    */
+   
     public void Awake()
     {
         GameManager.onBattlePhase.AddListener(Battle);
+       
         
         _playerWeapon = GameManager.gm.PlayerWeapon;
         _playerArmor = GameManager.gm.PlayerArmor;
@@ -52,14 +46,14 @@ public class BattleManager : MonoBehaviour
             PlayerStunnedDuration += Time.deltaTime;
             if (!_stopPlayerAttCoroutine)
             {
-                StopCoroutine("PlayerAttacking");
+                StopCoroutine(PlayerAttacking(_enemy));
                 _stopPlayerAttCoroutine = true;
             }
            
 
             if (PlayerStunnedDuration >= _enemy.StunDuration)
             {
-                StartCoroutine("PlayerAttacking");
+                StartCoroutine(PlayerAttacking(_enemy));
                 PlayerStunnedDuration = 0;
                 PlayerIsStunned = false;
             }
@@ -71,13 +65,13 @@ public class BattleManager : MonoBehaviour
             
             if (!_stopEnemyAttCoroutine)
             {
-                StopCoroutine("EnemyAttacking");
+                StopCoroutine(EnemyAttacking(_enemy));
                 _stopEnemyAttCoroutine = true;
             }
            
             if (EnemyStunnedDuration >= _playerWeapon.StunDuration)
             {
-                StartCoroutine("EnemyAttacking");
+                StartCoroutine(EnemyAttacking(_enemy));
                 EnemyStunnedDuration = 0;
                 EnemyIsStunned = false;
             }
@@ -102,7 +96,7 @@ public class BattleManager : MonoBehaviour
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
 
 
-            
+            StunChanceNumber(); 
 
             if (enemy.enemyType == _playerWeapon.VsType) 
             {
@@ -113,9 +107,13 @@ public class BattleManager : MonoBehaviour
                 healthManager.EnemyLoseHealth(enemy, _playerWeapon.Damage);
             }
 
-            if (randomStunChanceNumber <= _playerWeapon.StunChance)
+            if (_randomStunChanceNumber <= _playerWeapon.StunChance)
             {
                 EnemyIsStunned = true;
+            }
+            else
+            {
+                EnemyIsStunned = false;
             }
         }
 
@@ -125,14 +123,15 @@ public class BattleManager : MonoBehaviour
     private IEnumerator EnemyAttacking(SOEnemy enemy)
     {
 
-        WaitTimeBetweenAttacks = enemy.AttackSpeed / 10.0f * Time.deltaTime;
+        //WaitTimeBetweenAttacks = enemy.AttackSpeed / 10.0f * Time.deltaTime;
 
-		
+        StunChanceNumber();
+
         while (BothAlive && !EnemyIsStunned)
         {
-            
+
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
-            
+
 
             if (enemy.enemyType == _playerArmor.ProtectionType)
             {
@@ -143,23 +142,30 @@ public class BattleManager : MonoBehaviour
                 healthManager.PlayerLoseHealth(enemy.Damage * enemy.DamagePerLevel);
             }
 
-           
 
-            if (randomStunChanceNumber <= _enemy.StunChance) 
+
+            if (_randomStunChanceNumber <= _enemy.StunChance)
             {
-                PlayerIsStunned = true; //coroutina
+               PlayerIsStunned = true; 
             }
-
-
-
-
-
-
-
-
+            else
+            {
+                PlayerIsStunned = false;
+            }
         }
     }
+
+    public void StunChanceNumber ()
+    {
+        _randomStunChanceNumber = Random.Range(0, 10);
+    }
+
+   
+    
+
+
 }
+
 
 
 

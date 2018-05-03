@@ -8,7 +8,9 @@ public class Inventory : MonoBehaviour
 {
 
     public class CustomEvent<Inventory> : UnityEvent<Inventory> { }
-  
+
+
+    public CustomEvent<Inventory> OnInventoryChanged = new CustomEvent<Inventory>();
     public List<SOItem> ItemsInInventory = new List<SOItem>();
 
     private int Size = 6;
@@ -29,13 +31,13 @@ public class Inventory : MonoBehaviour
         {
             if (ItemsInInventory.Count < Size)
             {
-
                 ItemsInInventory.Add(ItemToAdd);
-                
+                OnInventoryChanged.Invoke(this);
             }
             else
             {
                 Debug.Log("Inventory is full");
+                
                 
             }
         }
@@ -46,7 +48,8 @@ public class Inventory : MonoBehaviour
     {
 		
         ItemsInInventory.Remove(ItemToRemove);
-     
+        OnInventoryChanged.Invoke(this);
+
         for (int i = 0; i < ItemsInInventory.Count; i++)
             {
                 if (ItemsInInventory[i] == ItemToRemove)

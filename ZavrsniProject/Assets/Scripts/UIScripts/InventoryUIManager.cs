@@ -1,16 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class InventoryUIManager : MonoBehaviour {
+public class InventoryUIManager : MonoBehaviour
+{
+    public Inventory inventory;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public List<Image> InventorySlots = new List<Image>();
+    public Sprite EmptySlot;
+
+    private void Awake()
+    {
+        inventory.OnInventoryChanged.AddListener(RefreshInventory);
+        RefreshInventory(inventory);
+    }
+
+    public void Update()
+    {
+       
+    }
+
+
+
+    private void RefreshInventory (Inventory inventory)
+    {
+        
+            for (int i = 0; i < InventorySlots.Count; i++)
+            {
+                
+            if (i < inventory.ItemsInInventory.Count )
+            {
+                InventorySlots[i].sprite = inventory.ItemsInInventory[i].Icon;
+            }
+            else
+            {
+                InventorySlots[i].sprite = null; //emptyslot sprite
+            }
+
+            }
+      
+       
+    }
+
 }

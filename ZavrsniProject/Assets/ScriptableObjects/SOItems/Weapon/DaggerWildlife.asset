@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa9aec9d57880394ea81435efcf263a0, type: 3}
+  m_Name: DaggerWildlife
+  m_EditorClassIdentifier: 
+  Name: Dagger - Wildlife
+  itemType: 0
+  MaxLevel: 0
+  Level: 0
+  UpgradeCost: 0
+  Icon: {fileID: 21300000, guid: f548e146a661b52429820034567080c1, type: 3}
+  VsType: 1
+  Damage: 0
+  AdditionalDamage: 0
+  AttackSpeed: 0
+  ShouldStun: 0
+  StunDuration: 0
+  StunChance: 0
+  ProtectionType: 0
+  Protection: 0
+  AdditionalProtection: 0

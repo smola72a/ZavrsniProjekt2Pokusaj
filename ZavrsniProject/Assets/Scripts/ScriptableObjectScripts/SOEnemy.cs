@@ -7,6 +7,9 @@ using UnityEngine.Events;
 
 public class SOEnemy : ScriptableObject
 {
+    public string Name;
+    public Sprite EnemySprite;
+
     public EnemyType enemyType = EnemyType.Bandits;
 
     public int StartingHealth;
