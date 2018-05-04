@@ -7,8 +7,8 @@ public class BattleManager : MonoBehaviour
 {
 
     public HealthManager healthManager;
-    private SOItem _playerWeapon;
-    private SOItem _playerArmor;
+    public SOItem _playerWeapon;
+    public SOItem _playerArmor;
     public SOEnemy _enemy;
 
     public bool BothAlive;
@@ -30,12 +30,8 @@ public class BattleManager : MonoBehaviour
    
     public void Awake()
     {
+
         GameManager.onBattlePhase.AddListener(Battle);
-       
-        
-        _playerWeapon = GameManager.gm.PlayerWeapon;
-        _playerArmor = GameManager.gm.PlayerArmor;
-        WaitTimeBetweenAttacks = _playerWeapon.AttackSpeed / 10f * Time.deltaTime;
     }
 
     private void Update()
@@ -78,9 +74,15 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void Battle(SOEnemy enemy)
+    private void Battle()
     {
-        _enemy = enemy;
+        Debug.Log("nj");
+
+        //_playerWeapon = Pool.pool.WeaponOnPlayer;
+        //_playerArmor = Pool.pool.ArmorOnPlayer;
+        WaitTimeBetweenAttacks = _playerWeapon.AttackSpeed / 10f * Time.deltaTime;
+
+       // _enemy = Pool.pool.EnemyInBattle;
         _stopEnemyAttCoroutine = false;
         _stopPlayerAttCoroutine = false;
         StartCoroutine(PlayerAttacking (_enemy));
@@ -89,6 +91,7 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator PlayerAttacking(SOEnemy enemy)
     {
+        Debug.Log("nj");
 
         while (BothAlive && !PlayerIsStunned)
         {

@@ -7,8 +7,6 @@ public class ItemIsPickedUp : UnityEvent<SOItem> { }
 
 public class LootGain : MonoBehaviour {
 
-
-
     //TODO: ovo se sve stavi na igrača pa imaš reference ko čovjek
    
     public static ItemIsPickedUp itemIsPickedUp = new ItemIsPickedUp();
@@ -37,6 +35,4 @@ public class LootGain : MonoBehaviour {
         SOItem newItem = ScriptableObject.Instantiate(ItemsAbleToGet[_itemIndex]) as SOItem;
         inventory.AddItemInInventory(newItem);
     }
-
-
 }

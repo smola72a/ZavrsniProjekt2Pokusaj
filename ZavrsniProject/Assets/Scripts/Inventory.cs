@@ -15,14 +15,8 @@ public class Inventory : MonoBehaviour
 
     private int Size = 6;
 
-
-
-
-
-
     private void Awake()
     {
-        
         LootGain.itemIsPickedUp.AddListener(AddItemInInventory);
     }
 

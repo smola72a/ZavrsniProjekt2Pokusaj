@@ -91,7 +91,9 @@ public class HealthManager : MonoBehaviour
         {
             Debug.Log("Enemy umire");
         }
-    } 
+    }
+
+ 
 }
     
 

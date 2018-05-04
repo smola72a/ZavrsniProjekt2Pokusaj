@@ -14,7 +14,7 @@ MonoBehaviour:
   Name: Bandit - Default
   EnemySprite: {fileID: 21300000, guid: 8963a81f6fb460c4ba29e5cc3cfec618, type: 3}
   enemyType: 0
-  StartingHealth: 0
+  StartingHealth: 30
   Health: 0
   HealthPerLevel: 0
   Damage: 0
