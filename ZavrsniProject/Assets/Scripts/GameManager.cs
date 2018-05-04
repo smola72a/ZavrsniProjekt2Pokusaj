@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-using UnityEditor;
+
 
 public class OnBattlePhase : UnityEvent<SOEnemy> { }
 
@@ -132,25 +132,25 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-   [CustomEditor(typeof(GameManager))]
-   public class GameManagerEditor : Editor
-   {
-       public  void  GenerateEnemy()
-       {
-          
-           base.OnInspectorGUI();
-  
-           GameManager gameManager = (GameManager)target;
-  
-           if (GUILayout.Button ("Activate"))
-           {
-              gameManager.GenerateEnemy();
-              GameManager.onBattlePhase.Invoke(GameManager.gm._enemy);
-           }
-  
-         
-       }
-   }
+ //[CustomEditor(typeof(GameManager))]
+ //public class GameManagerEditor : Editor
+ //{
+ //    public  void  GenerateEnemy()
+ //    {
+ //       
+ //        base.OnInspectorGUI();
+ //
+ //        GameManager gameManager = (GameManager)target;
+ //
+ //        if (GUILayout.Button ("Activate"))
+ //        {
+ //           gameManager.GenerateEnemy();
+ //           GameManager.onBattlePhase.Invoke(GameManager.gm._enemy);
+ //        }
+ //
+ //      
+ //    }
+ //}
 
 
     //ovdje editor
