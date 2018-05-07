@@ -14,4 +14,6 @@ public class Pool : MonoBehaviour
     public List<SOItem> AllArmorsPrefabs = new List<SOItem>();
     public List<SOEnemy> AllEnemiesPrefabs = new List<SOEnemy>();
     public List<SOItem> ItemsInInventory = new List<SOItem>();
+
+    //u awake definirati pool
 }

@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour {
         private void GenerateStartingItems()
     {
         //SOItem item = Instantiate(Pool.pool.AllWeaponsPrefabs[Random.Range(0, Pool.pool.AllWeaponsPrefabs.Count)]);
-        SOItem armor = Instantiate(Pool.pool.AllArmorsPrefabs[Random.Range(0, Pool.pool.AllArmorsPrefabs.Count)]);
+        SOItem armor = ScriptableObject.Instantiate(Pool.pool.AllArmorsPrefabs[Random.Range(0, Pool.pool.AllArmorsPrefabs.Count)]);
 
         //Pool.pool.WeaponOnPlayer = item;
         Pool.pool.ArmorOnPlayer = armor;
