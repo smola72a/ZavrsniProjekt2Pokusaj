@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> cffabdec346f60db4c48a4b57b70cb38af9b6616
 
 
 public class OnBattlePhase : UnityEvent { }
@@ -140,4 +144,31 @@ public class GameManager : MonoBehaviour {
         SwitchedPhase(GameplayPhase.Battle);
     }
 
+<<<<<<< HEAD
+ //[CustomEditor(typeof(GameManager))]
+ //public class GameManagerEditor : Editor
+ //{
+ //    public  void  GenerateEnemy()
+ //    {
+ //       
+ //        base.OnInspectorGUI();
+ //
+ //        GameManager gameManager = (GameManager)target;
+ //
+ //        if (GUILayout.Button ("Activate"))
+ //        {
+ //           gameManager.GenerateEnemy();
+ //           GameManager.onBattlePhase.Invoke(GameManager.gm._enemy);
+ //        }
+ //
+ //      
+ //    }
+ //}
+
+
+    //ovdje editor
+    //on gui il kaj god ćeš generirat protivnika i onda invoke onbattlephase
+	
+=======
+>>>>>>> cffabdec346f60db4c48a4b57b70cb38af9b6616
 }

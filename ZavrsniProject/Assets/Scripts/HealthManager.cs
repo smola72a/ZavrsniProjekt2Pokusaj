@@ -11,7 +11,10 @@ public class HealthManager : MonoBehaviour
     public int MaxArmor;
     public int MaxAdditionalArmor;
 
-    private int _armor;
+    public int Health = 100;
+    public int Armor;
+
+
     private int _armorDamage;
     private int _damageLeft;
 
@@ -19,18 +22,17 @@ public class HealthManager : MonoBehaviour
     private int _additionalArmorDamage;
     private int _additionalArmorDamageLeft;
 
-    private int _health;
    
     
 
     public void RestoreHealth()
     {
-        _health = MaxHealth;
+        Health = MaxHealth;
     }
 
     public void RestoreArmor()
     {
-        _armor = MaxArmor;
+        Armor = MaxArmor;
     }
 
     public void PlayerLoseAdditionalArmor(int amount)
@@ -59,23 +61,23 @@ public class HealthManager : MonoBehaviour
     {
 
 
-        if (_armor > 0)
+        if (Armor > 0)
         {
 
             _damageLeft = 0;
-            _armor -= amount;
-            if (_armor < 0)
+            Armor -= amount;
+            if (Armor < 0)
             {
-                _damageLeft -= _armor;
-                _armor = 0;
+                _damageLeft -= Armor;
+                Armor = 0;
             }
 
             if (_damageLeft > 0)
             {
-                _health -= _damageLeft;
+                Health -= _damageLeft;
             }
 
-            if (_health <= 0)
+            if (Health <= 0)
 
                 Debug.Log("Player umire");
         }
