@@ -91,7 +91,7 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator PlayerAttacking(SOEnemy enemy)
     {
-        Debug.Log("nj");
+       
 
         while (BothAlive && !PlayerIsStunned)
         {

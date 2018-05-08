@@ -16,8 +16,8 @@ public class SliderScript : MonoBehaviour
 
     public void Update()
     {
-        HealthManagerString = healthManager.Health.ToString();
-        HealthText.text = HealthManagerString;
+     // HealthManagerString = healthManager.Health.ToString();
+     // HealthText.text = HealthManagerString;
     }
    
 
