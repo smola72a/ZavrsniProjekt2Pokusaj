@@ -13,11 +13,14 @@ public class ShowDamage : MonoBehaviour
 
     public float ShowDamageTime = 0.2f;
 
-    public IEnumerator ShowPlayerDamage(int playerDamage)
+    public void ShowPlayerDamage(int playerDamage)
     {
         PlayerDamage.text = playerDamage.ToString();
-        yield return new WaitForSeconds(ShowDamageTime);
-        
+    }
+
+    public void ShowEnemyDamage(int enemyDamage)
+    {
+        EnemyDamage.text = enemyDamage.ToString();
     }
 	
 }

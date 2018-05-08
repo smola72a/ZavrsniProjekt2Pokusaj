@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-<<<<<<< HEAD
+
 public class OnBattlePhase : UnityEvent  { }
 public class OnChoosingPhase : UnityEvent { }
 public class OnCampPhase : UnityEvent { }
-=======
 
 
-public class OnBattlePhase : UnityEvent { }
->>>>>>> 6bc2285ecf805507df6300eb2817a802b55e4054
+
 
 
 public enum GameplayPhase
@@ -82,6 +80,8 @@ public class GameManager : MonoBehaviour {
         {
             //ova faza počinje kolizijom
             case GameplayPhase.Battle:
+                GenerateStartingItems();
+                GenerateEnemy();
                 onBattlePhase.Invoke(); 
                 break;
                 
@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour {
         rightEnemy = RightEnemy;
         leftEnemy = LeftEnemy;
 
-        
+        Pool.pool.EnemyInBattle = RightEnemy;
        
 
 
@@ -171,7 +171,6 @@ public class GameManager : MonoBehaviour {
 
     }
 
-<<<<<<< HEAD
     private void GenerateLootItems()
     {
         SOItem Weapon = ScriptableObject.Instantiate(Pool.pool.AllWeaponsPrefabs[Random.Range(0, Pool.pool.AllWeaponsPrefabs.Count)]);
@@ -182,17 +181,9 @@ public class GameManager : MonoBehaviour {
         
     }
 
-    public void Awake()
-    {
-        gm = this;
-
-        SwitchedPhase(GameplayPhase.Battle);
-    }
-=======
-
+    
 
     
 
 
->>>>>>> 6bc2285ecf805507df6300eb2817a802b55e4054
 }

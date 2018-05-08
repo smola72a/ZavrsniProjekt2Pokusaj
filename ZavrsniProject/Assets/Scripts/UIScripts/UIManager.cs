@@ -9,11 +9,13 @@ public class UIManager : MonoBehaviour
 {
    
    
-    public InventoryUIManager InventoryUIManagerPrefab;
+    public Canvas InventoryCanvas;
     public Canvas SafeZoneCanvas;
     public Canvas OptionsCanvas;
     public Canvas MainMenuCanvas;
     public Canvas DeathCanvas;
+    public Canvas GameplayCanvas;
+    public Canvas LootCanvas;
 
    
 
@@ -28,21 +30,24 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(OptionsCanvas);
         DontDestroyOnLoad(MainMenuCanvas);
         DontDestroyOnLoad(DeathCanvas);
+        DontDestroyOnLoad(GameplayCanvas);
+        DontDestroyOnLoad(LootCanvas);
 
-        
+
+
     }
 
     public void SetInventoryActive ()
     {
         SafeZoneCanvas.gameObject.SetActive(false);
-        InventoryUIManagerPrefab.gameObject.SetActive(true);
+        InventoryCanvas.gameObject.SetActive(true);
        
     }
 
     public void SetSafeZoneCanvasActive ()
     {
         SafeZoneCanvas.gameObject.SetActive(true);
-        InventoryUIManagerPrefab.gameObject.SetActive(false);
+        InventoryCanvas.gameObject.SetActive(false);
     }
 
     public void StartGame()

@@ -18,12 +18,15 @@ MonoBehaviour:
   UpgradeCost: 0
   Icon: {fileID: 21300000, guid: ee5c1e0ad905434448d981abd06c1ac2, type: 3}
   VsType: 0
-  Damage: 50
-  AdditionalDamage: 0
-  AttackSpeed: 0
-  ShouldStun: 0
-  StunDuration: 0
-  StunChance: 0
+  Damage: {x: 15, y: 22}
+  DamagePerLevel: {x: 2, y: 3}
+  AdditionalDamage: {x: 5, y: 9}
+  AdditionalDamagePerLevel: {x: 1, y: 2}
+  AttackSpeed: 70
+  AttackSpeedPerLevel: 5
+  ShouldStun: 1
+  StunDuration: 5
+  StunChance: 0.2
   ProtectionType: 0
   Protection: 0
   AdditionalProtection: 0

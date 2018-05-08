@@ -17,11 +17,7 @@ public class Pool : MonoBehaviour
     public List<SOEnemy> AllEnemiesPrefabs = new List<SOEnemy>();
     public List<SOItem> ItemsInInventory = new List<SOItem>();
 
-<<<<<<< HEAD
-    private void Awake()
-=======
     public void Awake()
->>>>>>> 6bc2285ecf805507df6300eb2817a802b55e4054
     {
         pool = this;
     }

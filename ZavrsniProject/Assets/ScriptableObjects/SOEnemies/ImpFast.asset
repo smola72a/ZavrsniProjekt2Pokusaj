@@ -12,16 +12,15 @@ MonoBehaviour:
   m_Name: ImpFast
   m_EditorClassIdentifier: 
   Name: Imp - Fast
+  EnemySprite: {fileID: 0}
   enemyType: 2
-  StartingHealth: 0
-  Health: 0
-  HealthPerLevel: 0
-  Damage: 0
-  DamagePerLevel: 0
-  AttackSpeed: 0
-  AttackSpeedPerLevel: 0
+  Health: 261945
+  HealthPerLevel: 5
+  Damage: {x: 2, y: 10}
+  DamagePerLevel: {x: 1, y: 2}
+  AttackSpeed: 60
+  AttackSpeedPerLevel: 10
   ShouldStun: 0
   StunChance: 0
   StunDuration: 0
-  MaxLevel: 0
   Level: 0

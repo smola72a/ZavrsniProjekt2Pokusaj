@@ -25,6 +25,8 @@ public class BattleManager : MonoBehaviour
 
     private float _randomStunChanceNumber;
 
+    private ShowDamage showDamage;
+
     EnemyType enemyType;
    
    
@@ -32,6 +34,7 @@ public class BattleManager : MonoBehaviour
     {
 
         GameManager.onBattlePhase.AddListener(Battle);
+        showDamage = GetComponent<ShowDamage>();
     }
 
     private void Update()
@@ -52,26 +55,29 @@ public class BattleManager : MonoBehaviour
                 StartCoroutine(PlayerAttacking(_enemy));
                 PlayerStunnedDuration = 0;
                 PlayerIsStunned = false;
+                _stopPlayerAttCoroutine = false;
             }
         }
 
         if (EnemyIsStunned)
         {
             EnemyStunnedDuration += Time.deltaTime;
-            
+
             if (!_stopEnemyAttCoroutine)
             {
                 StopCoroutine(EnemyAttacking(_enemy));
                 _stopEnemyAttCoroutine = true;
             }
-           
-            if (EnemyStunnedDuration >= _playerWeapon.StunDuration)
-            {
+        }
+
+        if (EnemyStunnedDuration > _playerWeapon.StunDuration)
+        {
                 StartCoroutine(EnemyAttacking(_enemy));
                 EnemyStunnedDuration = 0;
                 EnemyIsStunned = false;
-            }
+                _stopEnemyAttCoroutine = false;
         }
+        
     }
 
     private void Battle()
@@ -81,7 +87,7 @@ public class BattleManager : MonoBehaviour
         _playerArmor = Pool.pool.ArmorOnPlayer;
 
         //TODO:ovo ćemo mijenjat
-        //WaitTimeBetweenAttacks = 10f/_playerWeapon.AttackSpeed * Time.deltaTime;
+        WaitTimeBetweenAttacks = (10000f / _playerWeapon.AttackSpeed) * Time.deltaTime;
 
         _enemy = Pool.pool.EnemyInBattle;
         _stopEnemyAttCoroutine = false;
@@ -92,12 +98,8 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator PlayerAttacking(SOEnemy enemy)
     {
-<<<<<<< HEAD
-=======
-       
->>>>>>> 6bc2285ecf805507df6300eb2817a802b55e4054
 
-        while (BothAlive && !PlayerIsStunned)
+        while (BothAlive)
         {
         
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
@@ -105,24 +107,24 @@ public class BattleManager : MonoBehaviour
             int damage = ReturnPlayerDamage();
             int additionalDamage = ReturnPlayerAdditionalDamage();
 
-            StunChanceNumber(); 
-
             if (enemy.enemyType == _playerWeapon.VsType) 
             {
-                healthManager.EnemyLoseHealth(enemy, additionalDamage);
+               healthManager.EnemyLoseHealth(enemy, additionalDamage);
+                showDamage.ShowEnemyDamage(additionalDamage);
             }
             else
             {
                 healthManager.EnemyLoseHealth(enemy, damage);
+                showDamage.ShowEnemyDamage(damage);
             }
-
-            if (_randomStunChanceNumber <= _playerWeapon.StunChance)
+            if (_playerWeapon.ShouldStun)
             {
-                EnemyIsStunned = true;
-            }
-            else
-            {
-                EnemyIsStunned = false;
+                StunChanceNumber();
+                if (_randomStunChanceNumber <= _playerWeapon.StunChance)
+                {
+                    EnemyIsStunned = true;
+                    Debug.Log("enemy stunned");
+                }
             }
         }
 
@@ -132,17 +134,18 @@ public class BattleManager : MonoBehaviour
     private IEnumerator EnemyAttacking(SOEnemy enemy)
     {
 
-        //TODO: ne uzimat attack speed neg neš kaj je izračunato sa attackspeed*attackspeedperlevel
-        //WaitTimeBetweenAttacks = enemy.AttackSpeed / 10.0f * Time.deltaTime;
+        Debug.Log("krenula korutina");
+        WaitTimeBetweenAttacks = (10000.0f / enemy.AttackSpeed ) * Time.deltaTime;
 
-        StunChanceNumber();
+        //staviti korutine ovdje a ne update
 
-        while (BothAlive && !EnemyIsStunned)
+        while (BothAlive)
         {
+            Debug.Log("nj");
 
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
             int damage = ReturnEnemyDamage();
-
+            Debug.Log("nj2");
 
             if (enemy.enemyType == _playerArmor.ProtectionType)
             {
@@ -150,18 +153,19 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
+                Debug.Log("nj3");
                 healthManager.PlayerLoseHealth(damage);
+                showDamage.ShowPlayerDamage(damage);
             }
 
 
-
-            if (_randomStunChanceNumber <= _enemy.StunChance)
+            if (enemy.ShouldStun)
             {
-               PlayerIsStunned = true; 
-            }
-            else
-            {
-                PlayerIsStunned = false;
+                StunChanceNumber();
+                if (_randomStunChanceNumber <= _enemy.StunChance)
+                {
+                    PlayerIsStunned = true;
+                }
             }
         }
     }
