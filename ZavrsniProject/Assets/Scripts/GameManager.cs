@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+<<<<<<< HEAD
 public class OnBattlePhase : UnityEvent  { }
 public class OnChoosingPhase : UnityEvent { }
 public class OnCampPhase : UnityEvent { }
+=======
+
+
+public class OnBattlePhase : UnityEvent { }
+>>>>>>> 6bc2285ecf805507df6300eb2817a802b55e4054
 
 
 public enum GameplayPhase
@@ -61,7 +67,14 @@ public class GameManager : MonoBehaviour {
 
     private bool _goldTransactionIsValid;
 
-   public void SwitchedPhase(GameplayPhase phase)
+    public void Awake()
+    {
+        SwitchedPhase(GameplayPhase.Battle);
+        gm = this;
+    }
+
+
+    public void SwitchedPhase(GameplayPhase phase)
     {
         gameplayPhase = phase;
 
@@ -158,6 +171,7 @@ public class GameManager : MonoBehaviour {
 
     }
 
+<<<<<<< HEAD
     private void GenerateLootItems()
     {
         SOItem Weapon = ScriptableObject.Instantiate(Pool.pool.AllWeaponsPrefabs[Random.Range(0, Pool.pool.AllWeaponsPrefabs.Count)]);
@@ -174,4 +188,11 @@ public class GameManager : MonoBehaviour {
 
         SwitchedPhase(GameplayPhase.Battle);
     }
+=======
+
+
+    
+
+
+>>>>>>> 6bc2285ecf805507df6300eb2817a802b55e4054
 }

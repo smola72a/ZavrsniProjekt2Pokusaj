@@ -92,6 +92,10 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator PlayerAttacking(SOEnemy enemy)
     {
+<<<<<<< HEAD
+=======
+       
+>>>>>>> 6bc2285ecf805507df6300eb2817a802b55e4054
 
         while (BothAlive && !PlayerIsStunned)
         {
