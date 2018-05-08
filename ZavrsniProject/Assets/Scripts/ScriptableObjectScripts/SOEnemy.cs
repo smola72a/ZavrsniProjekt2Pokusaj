@@ -12,12 +12,11 @@ public class SOEnemy : ScriptableObject
 
     public EnemyType enemyType = EnemyType.Bandits;
 
-    public int StartingHealth;
     public int Health;
     public int HealthPerLevel;
 
-    public int Damage;
-    public int DamagePerLevel;
+    public Vector2Int Damage;
+    public Vector2Int DamagePerLevel;
 
     public float AttackSpeed;
     public float AttackSpeedPerLevel;
@@ -26,10 +25,10 @@ public class SOEnemy : ScriptableObject
     public int StunChance;
     public float StunDuration;
 
-
-    public int MaxLevel;
     public int Level;
 
+   
+   
     
 
 

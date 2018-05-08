@@ -76,13 +76,14 @@ public class BattleManager : MonoBehaviour
 
     private void Battle()
     {
-        Debug.Log("nj");
 
-        //_playerWeapon = Pool.pool.WeaponOnPlayer;
-        //_playerArmor = Pool.pool.ArmorOnPlayer;
-        WaitTimeBetweenAttacks = _playerWeapon.AttackSpeed / 10f * Time.deltaTime;
+        _playerWeapon = Pool.pool.WeaponOnPlayer;
+        _playerArmor = Pool.pool.ArmorOnPlayer;
 
-       // _enemy = Pool.pool.EnemyInBattle;
+        //TODO:ovo ćemo mijenjat
+        //WaitTimeBetweenAttacks = 10f/_playerWeapon.AttackSpeed * Time.deltaTime;
+
+        _enemy = Pool.pool.EnemyInBattle;
         _stopEnemyAttCoroutine = false;
         _stopPlayerAttCoroutine = false;
         StartCoroutine(PlayerAttacking (_enemy));
@@ -91,23 +92,24 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator PlayerAttacking(SOEnemy enemy)
     {
-        Debug.Log("nj");
 
         while (BothAlive && !PlayerIsStunned)
         {
         
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
 
+            int damage = ReturnPlayerDamage();
+            int additionalDamage = ReturnPlayerAdditionalDamage();
 
             StunChanceNumber(); 
 
             if (enemy.enemyType == _playerWeapon.VsType) 
             {
-                healthManager.EnemyLoseHealth(enemy, _playerWeapon.AdditionalDamage);
+                healthManager.EnemyLoseHealth(enemy, additionalDamage);
             }
             else
             {
-                healthManager.EnemyLoseHealth(enemy, _playerWeapon.Damage);
+                healthManager.EnemyLoseHealth(enemy, damage);
             }
 
             if (_randomStunChanceNumber <= _playerWeapon.StunChance)
@@ -126,6 +128,7 @@ public class BattleManager : MonoBehaviour
     private IEnumerator EnemyAttacking(SOEnemy enemy)
     {
 
+        //TODO: ne uzimat attack speed neg neš kaj je izračunato sa attackspeed*attackspeedperlevel
         //WaitTimeBetweenAttacks = enemy.AttackSpeed / 10.0f * Time.deltaTime;
 
         StunChanceNumber();
@@ -134,15 +137,16 @@ public class BattleManager : MonoBehaviour
         {
 
             yield return new WaitForSeconds(WaitTimeBetweenAttacks);
+            int damage = ReturnEnemyDamage();
 
 
             if (enemy.enemyType == _playerArmor.ProtectionType)
             {
-                healthManager.PlayerLoseAdditionalArmor(enemy.Damage * enemy.DamagePerLevel);
+                healthManager.PlayerLoseAdditionalArmor(damage);
             }
             else
             {
-                healthManager.PlayerLoseHealth(enemy.Damage * enemy.DamagePerLevel);
+                healthManager.PlayerLoseHealth(damage);
             }
 
 
@@ -163,9 +167,20 @@ public class BattleManager : MonoBehaviour
         _randomStunChanceNumber = Random.Range(0, 10);
     }
 
-   
-    
+    private int ReturnPlayerDamage()
+    {
+        return Random.Range(_playerWeapon.Damage.x, _playerWeapon.Damage.y);
+    }
+    private int ReturnPlayerAdditionalDamage()
+    {
+        return Random.Range(_playerWeapon.AdditionalDamage.x, _playerWeapon.AdditionalDamage.y);
+    }
 
+    private int ReturnEnemyDamage()
+    {
+        return Random.Range(_enemy.Damage.x, _enemy.Damage.y);
+    }
+    
 
 }
 

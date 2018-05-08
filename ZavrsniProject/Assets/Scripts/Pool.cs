@@ -9,11 +9,16 @@ public class Pool : MonoBehaviour
     public SOItem WeaponOnPlayer;
     public SOItem ArmorOnPlayer;
     public SOEnemy EnemyInBattle;
+    public int EnemyLevel;
+    public int ItemLevel;
 
     public List<SOItem> AllWeaponsPrefabs = new List<SOItem>();
     public List<SOItem> AllArmorsPrefabs = new List<SOItem>();
     public List<SOEnemy> AllEnemiesPrefabs = new List<SOEnemy>();
     public List<SOItem> ItemsInInventory = new List<SOItem>();
 
-    //u awake definirati pool
+    private void Awake()
+    {
+        pool = this;
+    }
 }

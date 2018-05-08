@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> cffabdec346f60db4c48a4b57b70cb38af9b6616
-
-
-public class OnBattlePhase : UnityEvent { }
+public class OnBattlePhase : UnityEvent  { }
+public class OnChoosingPhase : UnityEvent { }
+public class OnCampPhase : UnityEvent { }
 
 
 public enum GameplayPhase
@@ -47,10 +43,14 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager gm;
     public static OnBattlePhase onBattlePhase = new OnBattlePhase();
-
+    public static OnChoosingPhase onChoosingPhase = new OnChoosingPhase();
+    public static OnCampPhase onCampPhase = new OnCampPhase();
     public GameplayPhase gameplayPhase;
 
 	public LevelScaling levelScaling;
+
+    public SOEnemy LeftEnemy;
+    public SOEnemy RightEnemy;
 
 
     //univerzalno?
@@ -69,27 +69,44 @@ public class GameManager : MonoBehaviour {
         {
             //ova faza počinje kolizijom
             case GameplayPhase.Battle:
-                //ne ovdje neg kad se bira put (prije Chosing)
-                GenerateStartingItems();
-                //GenerateEnemy();
-                Debug.Log("ha");
-                onBattlePhase.Invoke(); ////trebas mi objasniti sta smo tocno dobili s time
-                
+                onBattlePhase.Invoke(); 
                 break;
+                
             //ova faza počinje nakon kaj izađeš iz kampa ili kombata
             case GameplayPhase.Choosing:
-                //ovdje negdje treba bit taj generirani protivnik
+                onChoosingPhase.Invoke();
+
+                GenerateEnemy();
+               
+
                 break;
             //nakon kaj se ispune uvjeti za finish borbe
             case GameplayPhase.Camp:
+                onCampPhase.Invoke();
                 break;
         }
     }
 
    public void GenerateEnemy()
     {
-        //trebat će enemyClone još dodat određene vrijednosti i treba se poredat ostale vrijednosti s levelom
-         Pool.pool.EnemyInBattle =  ScriptableObject.Instantiate (Pool.pool.AllEnemiesPrefabs[Random.Range(0, Pool.pool.AllEnemiesPrefabs.Count)]); 
+        SOEnemy rightEnemy = ScriptableObject.Instantiate(Pool.pool.AllEnemiesPrefabs[Random.Range(0, Pool.pool.AllEnemiesPrefabs.Count)]);
+        SOEnemy leftEnemy = ScriptableObject.Instantiate(Pool.pool.AllEnemiesPrefabs[Random.Range(0, Pool.pool.AllEnemiesPrefabs.Count)]);
+
+        rightEnemy.AttackSpeed += rightEnemy.AttackSpeed + rightEnemy.AttackSpeedPerLevel * (float)Pool.pool.EnemyLevel;
+        rightEnemy.Damage += rightEnemy.Damage + rightEnemy.DamagePerLevel * Pool.pool.EnemyLevel;
+        rightEnemy.Health += rightEnemy.Health + rightEnemy.HealthPerLevel * Pool.pool.EnemyLevel;
+
+        leftEnemy.AttackSpeed += leftEnemy.AttackSpeed + leftEnemy.AttackSpeedPerLevel * Pool.pool.EnemyLevel;
+        leftEnemy.Damage += leftEnemy.Damage + leftEnemy.DamagePerLevel * Pool.pool.EnemyLevel;
+        leftEnemy.Health += leftEnemy.Health + leftEnemy.HealthPerLevel * Pool.pool.EnemyLevel;
+
+        rightEnemy = RightEnemy;
+        leftEnemy = LeftEnemy;
+
+        
+       
+
+
     }
 
     public void UpgradeItem(SOItem ItemOnPlayerToUpgrade)
@@ -99,7 +116,9 @@ public class GameManager : MonoBehaviour {
         {
             ItemOnPlayerToUpgrade.Level++;
             ////ItemLevel++; dali onda tu mjenjamo Item level ili u SOItem?
-            levelScaling.UpgradeItem(ItemOnPlayerToUpgrade);
+
+            //mora bit weapon
+            levelScaling.UpgradeWeapon(ItemOnPlayerToUpgrade);
         }
     }
 
@@ -129,46 +148,30 @@ public class GameManager : MonoBehaviour {
     }
     */
 
-        private void GenerateStartingItems()
+    private void GenerateStartingItems()
     {
-        //SOItem item = Instantiate(Pool.pool.AllWeaponsPrefabs[Random.Range(0, Pool.pool.AllWeaponsPrefabs.Count)]);
+        SOItem Weapon = ScriptableObject.Instantiate(Pool.pool.AllWeaponsPrefabs[Random.Range(0, Pool.pool.AllWeaponsPrefabs.Count)]);
         SOItem armor = ScriptableObject.Instantiate(Pool.pool.AllArmorsPrefabs[Random.Range(0, Pool.pool.AllArmorsPrefabs.Count)]);
 
-        //Pool.pool.WeaponOnPlayer = item;
+        Pool.pool.WeaponOnPlayer = Weapon;
         Pool.pool.ArmorOnPlayer = armor;
 
     }
 
-    public void Awake()
+    private void GenerateLootItems()
     {
-        SwitchedPhase(GameplayPhase.Battle);
+        SOItem Weapon = ScriptableObject.Instantiate(Pool.pool.AllWeaponsPrefabs[Random.Range(0, Pool.pool.AllWeaponsPrefabs.Count)]);
+        SOItem Armor = ScriptableObject.Instantiate(Pool.pool.AllArmorsPrefabs[Random.Range(0, Pool.pool.AllArmorsPrefabs.Count)]);
+
+        Weapon.Level = Random.Range(0, Weapon.MaxLevel);
+        Armor.Level = Random.Range(0, Armor.MaxLevel);
+        
     }
 
-<<<<<<< HEAD
- //[CustomEditor(typeof(GameManager))]
- //public class GameManagerEditor : Editor
- //{
- //    public  void  GenerateEnemy()
- //    {
- //       
- //        base.OnInspectorGUI();
- //
- //        GameManager gameManager = (GameManager)target;
- //
- //        if (GUILayout.Button ("Activate"))
- //        {
- //           gameManager.GenerateEnemy();
- //           GameManager.onBattlePhase.Invoke(GameManager.gm._enemy);
- //        }
- //
- //      
- //    }
- //}
+    public void Awake()
+    {
+        gm = this;
 
-
-    //ovdje editor
-    //on gui il kaj god ćeš generirat protivnika i onda invoke onbattlephase
-	
-=======
->>>>>>> cffabdec346f60db4c48a4b57b70cb38af9b6616
+        SwitchedPhase(GameplayPhase.Battle);
+    }
 }

@@ -11,8 +11,6 @@ public class SOItem : ScriptableObject
 
     //Overall
 
-   
-
     public string Name;
     public ItemType itemType;
     public int MaxLevel;
@@ -29,10 +27,13 @@ public class SOItem : ScriptableObject
 
 
     public EnemyType VsType = EnemyType.Bandits;
-    public int Damage;
-    public int AdditionalDamage;
+    public Vector2Int Damage;
+    public Vector2Int DamagePerLevel;
+    public Vector2Int AdditionalDamage;
+    public Vector2Int AdditionalDamagePerLevel;
 
     public float AttackSpeed;
+    public float AttackSpeedPerLevel;
 
     public bool ShouldStun;
     public float StunDuration;
@@ -46,6 +47,8 @@ public class SOItem : ScriptableObject
     public EnemyType ProtectionType = EnemyType.Bandits;
     public int Protection;
     public int AdditionalProtection;
+   
+
 
     
 }
