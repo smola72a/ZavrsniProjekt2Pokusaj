@@ -14,6 +14,9 @@ public class HealthManager : MonoBehaviour
     public int Health = 100;
     public int Armor;
 
+    public bool PlayerDied = false;
+    public bool EnemyDied = false;
+
 
     private int _armorDamage;
     private int _damageLeft;
@@ -80,6 +83,7 @@ public class HealthManager : MonoBehaviour
             if (Health <= 0)
 
                 Debug.Log("Player umire");
+            PlayerDied = true;
         }
     }
 
@@ -90,6 +94,7 @@ public class HealthManager : MonoBehaviour
         if (enemy.Health <= 0)
         {
             Debug.Log("Enemy umire");
+            EnemyDied = true;
         }
     }
 

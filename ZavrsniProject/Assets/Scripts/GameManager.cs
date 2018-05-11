@@ -6,7 +6,8 @@ using UnityEngine.Events;
 
 public class OnBattlePhase : UnityEvent  { }
 public class OnChoosingPhase : UnityEvent { }
-public class OnCampPhase : UnityEvent { }
+
+
 
 
 
@@ -16,7 +17,9 @@ public enum GameplayPhase
 {
     Battle,
     Choosing,
-    Camp
+    Camp,
+    Loot
+    
 }
 
 public enum ItemType
@@ -48,7 +51,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager gm;
     public static OnBattlePhase onBattlePhase = new OnBattlePhase();
     public static OnChoosingPhase onChoosingPhase = new OnChoosingPhase();
-    public static OnCampPhase onCampPhase = new OnCampPhase();
+   
     public GameplayPhase gameplayPhase;
 
 	public LevelScaling levelScaling;
@@ -56,11 +59,14 @@ public class GameManager : MonoBehaviour {
     public SOEnemy LeftEnemy;
     public SOEnemy RightEnemy;
 
+    public int NumOfEnemies;
+
 
     //univerzalno?
     private int _playerDamage;
     private int _additionalDamage;
 
+    private HealthManager healthManager;
     public int Gold;
 
     private bool _goldTransactionIsValid;
@@ -69,6 +75,7 @@ public class GameManager : MonoBehaviour {
     {
         SwitchedPhase(GameplayPhase.Battle);
         gm = this;
+        healthManager = GetComponent<HealthManager>();
     }
 
 
@@ -95,8 +102,15 @@ public class GameManager : MonoBehaviour {
                 break;
             //nakon kaj se ispune uvjeti za finish borbe
             case GameplayPhase.Camp:
-                onCampPhase.Invoke();
+                Camp();
                 break;
+               
+
+            case GameplayPhase.Loot:
+                GenerateLootItems();
+                break;
+
+            
         }
     }
 
@@ -171,14 +185,50 @@ public class GameManager : MonoBehaviour {
 
     }
 
-    private void GenerateLootItems()
+    public void GenerateLootItems()
     {
-        SOItem Weapon = ScriptableObject.Instantiate(Pool.pool.AllWeaponsPrefabs[Random.Range(0, Pool.pool.AllWeaponsPrefabs.Count)]);
-        SOItem Armor = ScriptableObject.Instantiate(Pool.pool.AllArmorsPrefabs[Random.Range(0, Pool.pool.AllArmorsPrefabs.Count)]);
 
-        Weapon.Level = Random.Range(0, Weapon.MaxLevel);
-        Armor.Level = Random.Range(0, Armor.MaxLevel);
+        SOItem Item = ScriptableObject.Instantiate(Pool.pool.AllItemsPrefabs[Random.Range(0, Pool.pool.AllItemsPrefabs.Count)]);
+        Item.Level = Random.Range(0, Item.MaxLevel);
+
+        if (NumOfEnemies == 0)
+        {
+            SwitchedPhase(GameplayPhase.Camp);
+        }
+        else
+        {
+            SwitchedPhase(GameplayPhase.Choosing);
+        }
+       
         
+    }
+
+    private void Camp ()
+    {
+
+
+        NumOfEnemies = 5;
+        healthManager.RestoreHealth();
+        healthManager.RestoreArmor(); //
+        Pool.pool.EnemyLevel++;
+
+        DefineMinLevel();
+
+
+        //Canvas za camp
+
+    }
+
+    private void DefineMinLevel ()
+    {
+        if (Pool.pool.EnemyLevel <= 5)
+        {
+            Pool.pool.ItemMinLevel = 0;
+        }
+        else
+        {
+            Pool.pool.ItemMinLevel = Pool.pool.EnemyLevel - 5;
+        }
     }
 
     
@@ -187,3 +237,6 @@ public class GameManager : MonoBehaviour {
 
 
 }
+      
+
+

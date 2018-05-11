@@ -17,15 +17,25 @@ public class BattleManager : MonoBehaviour
 
     public bool EnemyIsStunned;
     public bool PlayerIsStunned;
-    public float EnemyStunnedDuration;
-    public float PlayerStunnedDuration;
+
+    public bool PlayerAttacks;
+    public bool EnemyAttacks;
+
+    private bool _shouldBattle = false;
 
     private bool _stopPlayerAttCoroutine;
     private bool _stopEnemyAttCoroutine;
 
+    private float PlayerAttackWait;
+    private float EnemyAttackWait;
+
+    private float PlayerStunDuration;
+    private float EnemyStunDuration;
+
     private float _randomStunChanceNumber;
 
     private ShowDamage showDamage;
+  
 
     EnemyType enemyType;
    
@@ -39,45 +49,53 @@ public class BattleManager : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerIsStunned)
+        if (_shouldBattle)
         {
 
-            PlayerStunnedDuration += Time.deltaTime;
-            if (!_stopPlayerAttCoroutine)
-            {
-                StopCoroutine(PlayerAttacking(_enemy));
-                _stopPlayerAttCoroutine = true;
-            }
-           
 
-            if (PlayerStunnedDuration >= _enemy.StunDuration)
+
+
+            if (!PlayerIsStunned)
+                PlayerAttackWait += Time.deltaTime;
+            else
             {
-                StartCoroutine(PlayerAttacking(_enemy));
-                PlayerStunnedDuration = 0;
-                PlayerIsStunned = false;
-                _stopPlayerAttCoroutine = false;
+                PlayerStunDuration += Time.deltaTime;
+                if (PlayerStunDuration >= _enemy.StunDuration)
+                {
+                    PlayerIsStunned = false;
+                    PlayerStunDuration = 0f;
+                }
+            }
+            if (!EnemyIsStunned)
+                EnemyAttackWait += Time.deltaTime;
+            else
+            {
+                EnemyStunDuration += Time.deltaTime;
+                if (EnemyStunDuration >= _playerWeapon.StunDuration)
+                {
+                    EnemyIsStunned = false;
+                    EnemyStunDuration = 0f;
+                }
+
+            }
+
+
+
+            if (PlayerAttackWait >= 100 / _playerWeapon.AttackSpeed)
+            {
+                PlayerAttacking(_enemy);
+                PlayerAttackWait = 0f;
+
+            }
+
+            if (EnemyAttackWait >= 100 / _enemy.AttackSpeed)
+            {
+                EnemyAttacking(_enemy);
+                EnemyAttackWait = 0f;
             }
         }
 
-        if (EnemyIsStunned)
-        {
-            EnemyStunnedDuration += Time.deltaTime;
 
-            if (!_stopEnemyAttCoroutine)
-            {
-                StopCoroutine(EnemyAttacking(_enemy));
-                _stopEnemyAttCoroutine = true;
-            }
-        }
-
-        if (EnemyStunnedDuration > _playerWeapon.StunDuration)
-        {
-                StartCoroutine(EnemyAttacking(_enemy));
-                EnemyStunnedDuration = 0;
-                EnemyIsStunned = false;
-                _stopEnemyAttCoroutine = false;
-        }
-        
     }
 
     private void Battle()
@@ -85,25 +103,18 @@ public class BattleManager : MonoBehaviour
 
         _playerWeapon = Pool.pool.WeaponOnPlayer;
         _playerArmor = Pool.pool.ArmorOnPlayer;
-
-        //TODO:ovo ćemo mijenjat
-        WaitTimeBetweenAttacks = (10000f / _playerWeapon.AttackSpeed) * Time.deltaTime;
-
         _enemy = Pool.pool.EnemyInBattle;
-        _stopEnemyAttCoroutine = false;
-        _stopPlayerAttCoroutine = false;
-        StartCoroutine(PlayerAttacking (_enemy));
-        StartCoroutine(EnemyAttacking (_enemy));
+
+        _shouldBattle = true;
+      
+
+        
+      
     }
 
-    private IEnumerator PlayerAttacking(SOEnemy enemy)
+    private void PlayerAttacking(SOEnemy enemy)
     {
-
-        while (BothAlive)
-        {
         
-            yield return new WaitForSeconds(WaitTimeBetweenAttacks);
-
             int damage = ReturnPlayerDamage();
             int additionalDamage = ReturnPlayerAdditionalDamage();
 
@@ -115,6 +126,10 @@ public class BattleManager : MonoBehaviour
             else
             {
                 healthManager.EnemyLoseHealth(enemy, damage);
+            if (healthManager.EnemyDied)
+            {
+                OnBattleEnd();
+            }
                 showDamage.ShowEnemyDamage(damage);
             }
             if (_playerWeapon.ShouldStun)
@@ -124,26 +139,22 @@ public class BattleManager : MonoBehaviour
                 {
                     EnemyIsStunned = true;
                     Debug.Log("enemy stunned");
+        
                 }
             }
         }
 
-    }
+        
+
+    
+
+   
 
 
-    private IEnumerator EnemyAttacking(SOEnemy enemy)
+    private void EnemyAttacking(SOEnemy enemy)
     {
 
-        Debug.Log("krenula korutina");
-        WaitTimeBetweenAttacks = (10000.0f / enemy.AttackSpeed ) * Time.deltaTime;
 
-        //staviti korutine ovdje a ne update
-
-        while (BothAlive)
-        {
-            Debug.Log("nj");
-
-            yield return new WaitForSeconds(WaitTimeBetweenAttacks);
             int damage = ReturnEnemyDamage();
             Debug.Log("nj2");
 
@@ -155,6 +166,11 @@ public class BattleManager : MonoBehaviour
             {
                 Debug.Log("nj3");
                 healthManager.PlayerLoseHealth(damage);
+            if (healthManager.PlayerDied)
+            {
+                _shouldBattle = false;
+                Debug.Log("umro si frende");
+            }
                 showDamage.ShowPlayerDamage(damage);
             }
 
@@ -166,9 +182,11 @@ public class BattleManager : MonoBehaviour
                 {
                     PlayerIsStunned = true;
                 }
+           
             }
-        }
     }
+
+   
 
     public void StunChanceNumber ()
     {
@@ -188,10 +206,28 @@ public class BattleManager : MonoBehaviour
     {
         return Random.Range(_enemy.Damage.x, _enemy.Damage.y);
     }
+
+    public void LootDrop()
+    {
+        if (healthManager.EnemyDied == true)
+        {
+            GameManager.gm.GenerateLootItems();
+        }
+    }
+
+    private void OnBattleEnd()
+    {
+        _shouldBattle = false;
+        GameManager.gm.NumOfEnemies--;
+        GameManager.gm.SwitchedPhase(GameplayPhase.Loot);
+
+    }
     
 
 }
 
 
 
+
+           
 

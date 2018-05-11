@@ -149,6 +149,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 32a2c626db200894cae583e79014b2e2, type: 2}
   AllArmorsPrefabs:
   - {fileID: 11400000, guid: 7b03416f62fc1df478941f22d8dd550d, type: 2}
+  AllItemsPrefabs: []
   AllEnemiesPrefabs:
   - {fileID: 11400000, guid: cb563053842b4204caf77be44f8f79a7, type: 2}
   ItemsInInventory: []
@@ -163,7 +164,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &695129138
 GameObject:
@@ -253,7 +254,7 @@ RectTransform:
   - {fileID: 1059566284}
   - {fileID: 2124499990}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -297,7 +298,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4575833361796864, guid: aa1571cd0064be8408f8fd6a12798ebf, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: aa1571cd0064be8408f8fd6a12798ebf, type: 2}
@@ -381,7 +382,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1059566283
 GameObject:
@@ -481,8 +482,8 @@ MonoBehaviour:
   WaitTimeBetweenAttacks: 2
   EnemyIsStunned: 0
   PlayerIsStunned: 0
-  EnemyStunnedDuration: 0
-  PlayerStunnedDuration: 0
+  PlayerAttacks: 0
+  EnemyAttacks: 0
 --- !u!114 &1146967179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,6 +544,8 @@ MonoBehaviour:
   MaxAdditionalArmor: 0
   Health: 100
   Armor: 0
+  PlayerDied: 0
+  EnemyDied: 0
 --- !u!114 &1146967183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,51 +562,23 @@ MonoBehaviour:
   EnemyDamage: {fileID: 2124499991}
   EnemyAdditionalDamage: {fileID: 0}
   ShowDamageTime: 0.2
---- !u!1 &1339157310
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1339157312}
-  - component: {fileID: 1339157311}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1339157311
+--- !u!114 &1146967184
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1339157310}
+  m_GameObject: {fileID: 1146967177}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 177e5d61990f9654bad20f538198d1ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameplayPhase: 0
-  levelScaling: {fileID: 1146967179}
+  levelScaling: {fileID: 0}
   LeftEnemy: {fileID: 0}
-  RightEnemy: {fileID: 11400000, guid: cb563053842b4204caf77be44f8f79a7, type: 2}
+  RightEnemy: {fileID: 0}
+  NumOfEnemies: 0
   Gold: 0
---- !u!4 &1339157312
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1339157310}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 389.03622, y: 329.23328, z: -5.633534}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1550530044 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1148381460476010, guid: aa1571cd0064be8408f8fd6a12798ebf,
@@ -626,6 +601,8 @@ MonoBehaviour:
   MaxAdditionalArmor: 0
   Health: 100
   Armor: 0
+  PlayerDied: 0
+  EnemyDied: 0
 --- !u!1 &1826108393
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +663,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1950308784
 Prefab:
@@ -725,7 +702,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4394491686965434, guid: 5c14b7cbcdeb5df47ab4e9fff46acd95, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5c14b7cbcdeb5df47ab4e9fff46acd95, type: 2}
